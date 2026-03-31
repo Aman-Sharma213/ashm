@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Study</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+
+    <script>
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    </script>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="sidebar">
+        <h2>AI Research</h2>
+        <a href="/"><button>Home</button></a>
+        <a href="/study"><button>Study</button></a>
+        <a href="/papers"><button>Papers</button></a>
+    </div>
+
+    <div class="split">
+
+        <div class="pdf-section">
+            <h3>Upload PDF</h3>
+
+            <input type="file" id="pdf-upload" accept="application/pdf">
+            <button onclick="uploadPDF()">Upload</button>
+
+            <hr>
+
+            <div id="pdf-container"></div>
+        </div>
+
+        <div class="chat-section">
+
+            <div id="chat-box"></div>
+
+            <div class="input-area">
+                <input id="user-input" placeholder="Ask about this paper...">
+                <button onclick="sendMessage()">➤</button>
+                <button id="micBtn">🎤</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="/static/script.js"></script>
+
+</body>
+</html>

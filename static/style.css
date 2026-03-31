@@ -1,0 +1,78 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f5f7fb;
+}
+
+.app {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 200px;
+    background: #f0f3f9;
+    padding: 15px;
+}
+
+.sidebar button {
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    border: none;
+    background: #3a6ff7;
+    color: white;
+    cursor: pointer;
+}
+
+.split {
+    display: flex;
+    flex: 1;
+}
+
+.pdf-section {
+    width: 50%;
+    overflow-y: scroll;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
+.chat-section {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat-box {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.user {
+    text-align: right;
+    background: #d1e7ff;
+    padding: 8px;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.ai {
+    text-align: left;
+    background: #eee;
+    padding: 8px;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.input-area {
+    display: flex;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+}
+
+button {
+    padding: 10px;
+}
