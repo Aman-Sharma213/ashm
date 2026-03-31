@@ -1,8 +1,9 @@
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import FastAPI, UploadFile, File, Form, Query
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 import shutil, os, tempfile
+import urllib.request, urllib.parse, json
 
 import model
 from textExtraction import load_user_pdf
@@ -36,7 +37,58 @@ def study():
 def papers():
     return FileResponse("templates/papers.html")
 
-# -------- CHAT -------- #
+@app.get("/list-papers")
+def list_papers():
+    files = []
+    if os.path.exists(UPLOAD_DIR):
+        files = [f for f in os.listdir(UPLOAD_DIR) if f.endswith('.pdf')]
+    return {"papers": files}
+
+@app.get("/trending")
+def trending():
+    return FileResponse("templates/trending.html")
+
+@app.get("/trending-papers")
+def trending_papers(query: str = Query("AI")):
+    """Proxy for Semantic Scholar API to avoid browser CORS / rate-limit issues."""
+    try:
+        encoded = urllib.parse.quote(query)
+        url = (
+            f"https://api.semanticscholar.org/graph/v1/paper/search"
+            f"?query={encoded}&limit=10&fields=title,authors,year,citationCount,externalIds"
+        )
+        req = urllib.request.Request(url, headers={"User-Agent": "AI-Research-Assistant/1.0"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            raw = resp.read().decode("utf-8")
+        data = json.loads(raw)
+
+        papers = []
+        for p in data.get("data", []):
+            # Build a Semantic Scholar paper link from paperId if url not present
+            paper_id = p.get("paperId", "")
+            ss_url = f"https://www.semanticscholar.org/paper/{paper_id}" if paper_id else "#"
+            doi = (p.get("externalIds") or {}).get("DOI", "")
+            read_url = f"https://doi.org/{doi}" if doi else ss_url
+
+            authors = p.get("authors", [])
+            authors_str = ", ".join(a["name"] for a in authors[:3])
+            if len(authors) > 3:
+                authors_str += f" +{len(authors)-3} more"
+
+            papers.append({
+                "title":       p.get("title", "Untitled"),
+                "authors":     authors_str or "Unknown Authors",
+                "year":        p.get("year") or "N/A",
+                "citations":   p.get("citationCount", 0),
+                "url":         read_url,
+                "ss_url":      ss_url,
+            })
+
+        return JSONResponse({"papers": papers})
+    except Exception as e:
+        return JSONResponse({"error": str(e), "papers": []}, status_code=500)
+
+
 
 class Query(BaseModel):
     message: str

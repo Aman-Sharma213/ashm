@@ -8,19 +8,39 @@
 
 <div class="app">
 
-    <div class="sidebar">
+    <div class="navbar">
         <h2 class="logo">AI Research</h2>
-        <a href="/"><button>Home</button></a>
-        <a href="/study"><button>Study</button></a>
-        <a href="/papers"><button>Papers</button></a>
+        <div class="nav-links">
+            <a href="/"><button class="active">Home</button></a>
+            <a href="/study"><button>Study</button></a>
+            <a href="/papers"><button>Papers</button></a>
+            <a href="/trending"><button>Trending</button></a>
+        </div>
     </div>
 
     <div class="main">
-        <h1>AI Research Assistant</h1>
-
+        <h1>Welcome to AI Research Assistant</h1>
+        
         <p class="desc">
-            Upload research papers, understand them easily, and interact with AI.
+            Your intelligent companion for understanding complex academic papers. Upload research, chat, and listen to AI-powered insights in real-time.
         </p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>📄 Upload PDFs</h3>
+                <p>Easily upload your research papers and we'll process them instantly.</p>
+            </div>
+            <div class="feature-card">
+                <h3>💬 Text & Voice Chat</h3>
+                <p>Interact using text or your microphone to ask questions about the document.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔊 Real-time Speech</h3>
+                <p>Listen to the AI's responses instantly with our advanced Text-to-Speech integration.</p>
+            </div>
+        </div>
+
+        <a href="/study" style="text-decoration:none;"><button class="primary-btn-large" style="margin-top:40px;">Get Started</button></a>
     </div>
 
 </div>
